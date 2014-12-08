@@ -1,0 +1,160 @@
+!Devops
+
+!!Architecture globale
+
+La solution est constituée de modules majeurs:
+
+# Le système de collecte (acqsystem)
+# le stockage des résultats
+# le stockage des résultats
+
+D'autres éléments sont présents:
+
+# les scripts d'environnement
+# les scripts de contrôle
+# le monitoring
+
+% +Architecture>file://figures/architecture.jpg|width=100|label=Architecture+
+% +Features>file://figures/features.jpg|width=100|label=Features+
++FeaturesBis>file://figures/featuresbis.jpg|width=100|label=FeaturesBis+
+%+Arch Overview>file://figures/architecture_overview.png|width=100|label=FeaturesBis+
+
+
+@@todo put a better picture
+
+!!Architecture du système d'acquisition
+
+Le système d'acquisition est basé sur l'exploration d'une arborescence qui représente 
+
+TIMEFRAME_SHORT et TIMEFRAME
+
+!!Architecture du stockage de données
+
+Les données sont stockées sous forme de fichier RRD dans $ACQSYSTEM_RRDDATA
+
+!!Tâches cron
+
+!!Architecture du frontend web
+
+!!Configuration du système
+
+!!Aspect sécurité
+
+!!Aspect VNC
+
+!!Préférences utilisateur
+
+!!Multilingue
+
+!!Responsive design
+
+!!Fonctionnalités de CXP
+
+!!Développement - Elements de base
+
+!!Structure des classes de l'applicatif
+
+!!HFC - MongoDb
+
+!!Devops
+
+!!!monit
+
+!!!cxpctl
+
+cxpctl est le script de contrôle du frontend web.
+Ce script est normalement piloté par monit.
+
+[[[label=cxpctl|caption=Démarrer le frontend web|language=bash
+cxpctl start
+]]]
+
+
+[[[label=cxpctl|caption=Arrêter le frontend web|language=bash
+cxpctl stop
+]]]
+
+!!!!Détails d'installation
+
+Il est nécessaire de disposer du répoertoire /var/run/cxp dans lequel le script dépose le pid du frontend web.
+
+
+[[[label=cxpctl|caption=Détails d'installation|language=bash
+#!/bin/bash
+# CXP control script.
+# ===================
+# this has to be run with sudo.
+# e.g.
+#
+# sudo ./cxpctl stop
+# sudo ./cxpctl start
+#
+# The pid file has to be in /var/run/cxp/
+# So the directory must exist and the user running cxp must be able to write to it.
+#
+# So:
+#   chmod g+w /var/run/cxp
+#   chown root:<cxpgroup> /var/run/cxp
+#
+# There is a sleep 30 in the script because one needs to wait for CXP to start before launching apache. Otherwise we'll be in trouble.
+]]]
+
+!!Gestion des exceptions
+
+!!Exercice: configuration d'interface
+
+!!Environnement: naviguer
+
+!!!setcxpvars.sh & .bashrc & Defaults
+
+Des variables d'environnement sont nécessaires au bon fonctionnement.
+
+Il s'agit de les définir au sein du fichier "".bashrc"" de l'utilisateur réservé pour le système.
+
+@@note Veiller à bien configurer HOME_CXP
+
+[[[ 
+export HOME_CXP=$HOME
+export ACQSYS_HOME=$HOME_CXP/acqsystem
+. $ACQSYS_HOME/acquisition/config/Defaults
+
+alias gocxp="cd $HOME_CXP/cxp-frontend"
+alias godevops="cd $HOME_CXP/devops"
+alias goacq="cd $ACQSYS_HOME"
+]]]
+
+Les variables relatives au système d'acquisition sont définies dans $ACQSYS_HOME/acquisition/config/Defaults
+
+Voici un exemple:
+
+[[[[label=envvars|caption=Variables d'environnement|language=bash
+ACQSYS_ACQUISITIONDIR=/home/cxp/acqsystem-talange/acquisition
+ACQSYS_CONFIGDIR=/home/cxp/acqsystem-talange/acquisition/config
+ACQSYS_DATADIR=/home/cxp/acqsystem-talange/data
+ACQSYS_DESTDIR=/home/cxp/acqsystem-talange/results
+ACQSYS_GRAPHDIR=/home/cxp/acqsystem-talange/data/graph
+ACQSYS_HOME=/home/cxp/acqsystem-talange
+ACQSYS_REGISTRY=/home/cxp/acqsystem-talange/registry
+ACQSYS_RRDDIR=/home/cxp/acqsystem-talange/data/rrd
+ACQSYS_RRDPRINT_TIMEFRAME=1week
+ACQSYS_RRDPRINT_TIMEFRAME_SHORT=30min
+]]]
+
+Divers alias sont disponibles pour naviguer facilement:
+
+|!Alias|!Responsabilité
+|gocxp|Aller dans le répertoire racine du frontend web
+|goacq|Aller dans le répertoire racine du système d'acquisition
+|godevops|Aller dans le répertoire racine pour les tâches opérationnelles
+
+
+!!!goacq
+!!!godevops
+
+Modification des seuils
+
+Server patching
+
+Configuration Apache
+
+

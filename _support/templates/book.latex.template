@@ -13,8 +13,8 @@
 % Add the path for the figures of each chapter here:
 \graphicspath{
         {figures/}
-%        {Example/}
-%        {Book/}
+        {Example/}
+        {Book/}
 }
 %=================================================================
 \let\wholebook=\relax
@@ -30,7 +30,7 @@
 \pagestyle{headings}
 %=================================================================
 \author{
-  <Put the authors here>
+  Philippe Back
 }
 \title{\Huge\bf {{{title}}} }
 \isodate
